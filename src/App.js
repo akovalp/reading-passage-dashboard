@@ -1,5 +1,5 @@
 // App.jsx
-import React from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
 import Header from "./components/Header";
 import TextGenerationForm from "./components/TextGenerationForm";
@@ -9,6 +9,9 @@ import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import "./App.css";
 
 function App() {
+  // Quiz result state
+  const [quizResult, setQuizResult] = useState(null);
+
   // Text generation hook
   const {
     generatedText,
@@ -31,9 +34,14 @@ function App() {
     await generateText(formData);
   };
 
-  // Handle questions generation
-  const handleGenerateQuestions = async () => {
-    await generateQuestions(generatedText, "English", "ollama");
+  // Handle questions generation, accept provider from UI
+  const handleGenerateQuestions = async (provider) => {
+    await generateQuestions(generatedText, "English", provider);
+  };
+
+  // Handle quiz submission
+  const handleQuizSubmit = (score, total) => {
+    setQuizResult(score != null ? `${score} / ${total}` : null);
   };
 
   return (
@@ -55,6 +63,8 @@ function App() {
             questions={questions}
             showQuestions={showQuestions}
             onGenerateQuestions={handleGenerateQuestions}
+            onQuizSubmit={handleQuizSubmit}
+            quizResult={quizResult}
           />
         </div>
       </div>
