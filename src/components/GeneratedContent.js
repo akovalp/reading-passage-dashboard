@@ -1,0 +1,77 @@
+import React, { useState } from "react";
+import Button from "./UI/Button";
+import LoadingSpinner from "./UI/LoadingSpinner";
+import QuestionsDisplay from "./QuestionsDisplay";
+
+const GeneratedContent = ({
+  generatedText,
+  isLoading,
+  textError,
+  isQuestionsLoading,
+  questions,
+  showQuestions,
+  onGenerateQuestions,
+}) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyText = () => {
+    if (generatedText) {
+      navigator.clipboard.writeText(generatedText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <div className="results-container">
+      <h2>Generated Text</h2>
+      {textError && <div className="error">{textError}</div>}
+
+      {generatedText ? (
+        <>
+          <div className="text-output">
+            {generatedText.split("\n").map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="actions">
+            <Button
+              className="copy-btn"
+              onClick={handleCopyText}
+              disabled={!generatedText}
+            >
+              {copied ? "Copied! ✓" : "Copy Text"}
+            </Button>
+
+            <Button
+              className="btn secondary"
+              onClick={onGenerateQuestions}
+              disabled={isQuestionsLoading}
+            >
+              {isQuestionsLoading ? (
+                <LoadingSpinner text="Generating Questions..." />
+              ) : (
+                "Generate Questions"
+              )}
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className="placeholder">
+          {isLoading ? (
+            <LoadingSpinner text="Generating text..." />
+          ) : (
+            "Enter a topic and generate a reading passage"
+          )}
+        </div>
+      )}
+
+      {showQuestions && questions.length > 0 && (
+        <QuestionsDisplay questions={questions} />
+      )}
+    </div>
+  );
+};
+
+export default GeneratedContent;
