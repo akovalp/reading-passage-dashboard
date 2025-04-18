@@ -32,3 +32,4 @@ Backend/core/__pycache__/prompts.cpython-311.pyc
 Backend/core/__pycache__/settings.cpython-311.pyc
 Backend/models/__pycache__/schemas.cpython-311.pyc
 Backend/__pycache__/main.cpython-311.pyc
+Backend/routers/__pycache__/models.cpython-311.pyc

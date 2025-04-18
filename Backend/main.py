@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from Backend.routers import text, questions
+from Backend.routers import text, questions, models
 from dotenv import load_dotenv
 import os
 
@@ -26,6 +26,7 @@ app.add_middleware(
 )
 app.include_router(text.router)
 app.include_router(questions.router)
+app.include_router(models.router)  # Add the new models router
 
 
 @app.get("/")
