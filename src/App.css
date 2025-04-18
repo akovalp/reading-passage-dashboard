@@ -319,13 +319,18 @@ select:focus {
 .question-provider-group {
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin: 0 15px;
+  background-color: var(--card-bg);
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
 }
 
 .question-provider-group label {
   margin-right: 8px;
   font-weight: 500;
   color: var(--text-color);
+  white-space: nowrap;
 }
 
 .question-provider-group select {
@@ -336,12 +341,39 @@ select:focus {
   background-color: var(--card-bg);
   color: var(--text-color);
   transition: var(--transition);
+  min-width: 120px;
 }
 
 .question-provider-group select:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+/* Styles for the question generation controls */
+.question-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.question-controls .btn {
+  min-width: 150px;
+  height: 45px;
+}
+
+@media (max-width: 768px) {
+  .question-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .question-provider-group {
+    margin: 10px 0;
+  }
 }
 
 /* Quiz styles */

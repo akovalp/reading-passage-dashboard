@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./UI/Button";
 import LoadingSpinner from "./UI/LoadingSpinner";
 
-const TextGenerationForm = ({ onGenerateText, isLoading }) => {
+const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
   const [formData, setFormData] = useState({
     topic: "",
     language: "English",
     level: "Basic",
     style: "Formal",
     provider: "ollama",
+    questionProvider: "ollama",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -86,6 +93,19 @@ const TextGenerationForm = ({ onGenerateText, isLoading }) => {
             id="provider"
             name="provider"
             value={formData.provider}
+            onChange={handleInputChange}
+          >
+            <option value="ollama">Ollama</option>
+            <option value="groq">Groq</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="questionProvider">Question Generation Model:</label>
+          <select
+            id="questionProvider"
+            name="questionProvider"
+            value={formData.questionProvider || "ollama"}
             onChange={handleInputChange}
           >
             <option value="ollama">Ollama</option>

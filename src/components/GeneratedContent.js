@@ -13,9 +13,9 @@ const GeneratedContent = ({
   onGenerateQuestions,
   onQuizSubmit,
   quizResult,
+  questionProvider,
 }) => {
   const [copied, setCopied] = useState(false);
-  const [questionProvider, setQuestionProvider] = useState("ollama");
 
   const handleCopyText = () => {
     if (generatedText) {
@@ -38,7 +38,7 @@ const GeneratedContent = ({
             ))}
           </div>
 
-          <div className="actions">
+          <div className="question-controls">
             <Button
               className="btn primary"
               onClick={handleCopyText}
@@ -47,21 +47,9 @@ const GeneratedContent = ({
               {copied ? "Copied! ✓" : "Copy Text"}
             </Button>
 
-            {/* provider selection for questions */}
-            <div className="form-group question-provider-group">
-              <label htmlFor="question-provider">Provider:</label>
-              <select
-                id="question-provider"
-                value={questionProvider}
-                onChange={(e) => setQuestionProvider(e.target.value)}
-              >
-                <option value="ollama">Ollama</option>
-                <option value="groq">Groq</option>
-              </select>
-            </div>
             <Button
               className="btn secondary"
-              onClick={() => onGenerateQuestions(questionProvider)}
+              onClick={onGenerateQuestions}
               disabled={isQuestionsLoading}
             >
               {isQuestionsLoading ? (

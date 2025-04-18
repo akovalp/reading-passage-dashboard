@@ -9,6 +9,16 @@ import { useQuestionGeneration } from "./hooks/useQuestionGeneration";
 import "./App.css";
 
 function App() {
+  // Form data state
+  const [formData, setFormData] = useState({
+    topic: "",
+    language: "English",
+    level: "Basic",
+    style: "Formal",
+    provider: "ollama",
+    questionProvider: "ollama",
+  });
+
   // Quiz result state
   const [quizResult, setQuizResult] = useState(null);
 
@@ -29,14 +39,19 @@ function App() {
     generateQuestions,
   } = useQuestionGeneration();
 
-  // Handle form submission
-  const handleGenerateText = async (formData) => {
-    await generateText(formData);
+  // Handle form submission and update form data
+  const handleGenerateText = async (data) => {
+    setFormData(data);
+    await generateText(data);
   };
 
-  // Handle questions generation, accept provider from UI
-  const handleGenerateQuestions = async (provider) => {
-    await generateQuestions(generatedText, "English", provider);
+  // Handle questions generation using provider from form data
+  const handleGenerateQuestions = async () => {
+    await generateQuestions(
+      generatedText,
+      "English",
+      formData.questionProvider
+    );
   };
 
   // Handle quiz submission
@@ -53,6 +68,7 @@ function App() {
           <TextGenerationForm
             onGenerateText={handleGenerateText}
             isLoading={isTextLoading}
+            initialData={formData}
           />
 
           <GeneratedContent
@@ -65,6 +81,7 @@ function App() {
             onGenerateQuestions={handleGenerateQuestions}
             onQuizSubmit={handleQuizSubmit}
             quizResult={quizResult}
+            questionProvider={formData.questionProvider}
           />
         </div>
       </div>
