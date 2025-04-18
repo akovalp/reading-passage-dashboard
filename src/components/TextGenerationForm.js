@@ -10,6 +10,8 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
     style: "Formal",
     provider: "ollama",
     questionProvider: "ollama",
+    num_questions: 5,
+    choices_num: 4,
   });
 
   useEffect(() => {
@@ -110,6 +112,40 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
           >
             <option value="ollama">Ollama</option>
             <option value="groq">Groq</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="num_questions">Number of Questions:</label>
+          <select
+            id="num_questions"
+            name="num_questions"
+            value={formData.num_questions}
+            onChange={handleInputChange}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="choices_num">Choices per Question:</label>
+          <select
+            id="choices_num"
+            name="choices_num"
+            value={formData.choices_num}
+            onChange={handleInputChange}
+          >
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
 

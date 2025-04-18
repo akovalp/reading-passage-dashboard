@@ -6,7 +6,13 @@ export const useQuestionGeneration = () => {
   const [error, setError] = useState(null);
   const [showQuestions, setShowQuestions] = useState(false);
 
-  const generateQuestions = async (generatedText, language, provider) => {
+  const generateQuestions = async (
+    generatedText,
+    language,
+    provider,
+    num_questions = 5,
+    choices_num = 4
+  ) => {
     if (!generatedText) return;
 
     setIsLoading(true);
@@ -17,9 +23,9 @@ export const useQuestionGeneration = () => {
     try {
       const questionsData = {
         generated_text: generatedText,
-        num_questions: 5,
+        num_questions: parseInt(num_questions, 10),
         language,
-        choices_num: 4,
+        choices_num: parseInt(choices_num, 10),
         provider,
       };
 

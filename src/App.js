@@ -17,6 +17,8 @@ function App() {
     style: "Formal",
     provider: "ollama",
     questionProvider: "ollama",
+    num_questions: 5,
+    choices_num: 4,
   });
 
   // Quiz result state
@@ -50,7 +52,9 @@ function App() {
     await generateQuestions(
       generatedText,
       "English",
-      formData.questionProvider
+      formData.questionProvider,
+      formData.num_questions,
+      formData.choices_num
     );
   };
 
