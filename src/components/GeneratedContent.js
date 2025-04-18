@@ -65,7 +65,12 @@ const GeneratedContent = ({
           {isLoading ? (
             <LoadingSpinner text="Generating text..." />
           ) : (
-            "Enter a topic and generate a reading passage"
+            <>
+              <div style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+                📚 Ready to Create
+              </div>
+              <p>Enter a topic and generate a reading passage</p>
+            </>
           )}
         </div>
       )}

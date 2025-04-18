@@ -6,7 +6,10 @@ const Header = ({ title }) => {
 
   return (
     <header>
-      <h1>{title}</h1>
+      <h1>
+        <span style={{ marginRight: "10px" }}>📝</span>
+        {title}
+      </h1>
       <button className="theme-toggle" onClick={toggleDarkMode}>
         {darkMode ? "🌞" : "🌙"}
       </button>

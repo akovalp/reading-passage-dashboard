@@ -52,7 +52,7 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
 
   return (
     <div className="form-container">
-      <h2>Generate New Text</h2>
+      <h2>Configure Generation</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="topic">Topic:</label>
@@ -80,7 +80,7 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="level">Level:</label>
+          <label htmlFor="level">Difficulty Level:</label>
           <select
             id="level"
             name="level"
@@ -94,7 +94,7 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="style">Style:</label>
+          <label htmlFor="style">Writing Style:</label>
           <input
             type="text"
             id="style"
@@ -128,65 +128,69 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="questionProvider">
-            Question Generation Provider:
-          </label>
-          <select
-            id="questionProvider"
-            name="questionProvider"
-            value={formData.questionProvider || "ollama"}
-            onChange={handleInputChange}
-          >
-            <option value="ollama">Ollama</option>
-            <option value="groq">Groq</option>
-          </select>
+        <div style={{ marginTop: "1.5rem", borderTop: "1px solid var(--border-color)", paddingTop: "1.5rem" }}>
+          <h3 style={{ marginBottom: "1rem", fontSize: "1.1rem", color: "var(--primary-color)" }}>Question Settings</h3>
+        
+          <div className="form-group">
+            <label htmlFor="questionProvider">
+              Question Generation Provider:
+            </label>
+            <select
+              id="questionProvider"
+              name="questionProvider"
+              value={formData.questionProvider || "ollama"}
+              onChange={handleInputChange}
+            >
+              <option value="ollama">Ollama</option>
+              <option value="groq">Groq</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="questionModel">Question Generation Model:</label>
+            <ModelSelector
+              provider={formData.questionProvider}
+              selectedModel={formData.questionModel}
+              onModelChange={handleQuestionModelChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="num_questions">Number of Questions:</label>
+            <select
+              id="num_questions"
+              name="num_questions"
+              value={formData.num_questions}
+              onChange={handleInputChange}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="choices_num">Choices per Question:</label>
+            <select
+              id="choices_num"
+              name="choices_num"
+              value={formData.choices_num}
+              onChange={handleInputChange}
+            >
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="questionModel">Question Generation Model:</label>
-          <ModelSelector
-            provider={formData.questionProvider}
-            selectedModel={formData.questionModel}
-            onModelChange={handleQuestionModelChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="num_questions">Number of Questions:</label>
-          <select
-            id="num_questions"
-            name="num_questions"
-            value={formData.num_questions}
-            onChange={handleInputChange}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="8">8</option>
-            <option value="10">10</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="choices_num">Choices per Question:</label>
-          <select
-            id="choices_num"
-            name="choices_num"
-            value={formData.choices_num}
-            onChange={handleInputChange}
-          >
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <Button type="submit" className="btn primary" disabled={isLoading}>
+        <Button type="submit" className="btn primary" disabled={isLoading} style={{ marginTop: "1.5rem", width: "100%" }}>
           {isLoading ? (
             <LoadingSpinner text="Generating..." />
           ) : (
