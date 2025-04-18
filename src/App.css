@@ -333,12 +333,8 @@ select:focus {
   border-left: 4px solid var(--error-color);
 }
 
-.question-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+.question-controls.secondary {
+  margin-top: 0;
 }
 
 .quiz-container {
