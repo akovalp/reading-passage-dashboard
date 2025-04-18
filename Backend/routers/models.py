@@ -50,6 +50,7 @@ async def get_models():
                     'tags', []), "size": model.get('size', 0)}
             )
             for model in ollama_models_response.get('models', [])
+            if "whisper" not in model['model'].lower() and "tts" not in model['model'].lower()
         ]
         models.extend(ollama_models)
     except Exception as e:
@@ -83,6 +84,7 @@ async def get_models():
                                 }
                             )
                             for model in data.get('data', [])
+                            if "whisper" not in model['id'].lower() and "tts" not in model['id'].lower()
                         ]
                         models.extend(groq_models)
                     else:
