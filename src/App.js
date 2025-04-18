@@ -94,6 +94,7 @@ function App() {
             quizResult={quizResult}
             questionProvider={formData.questionProvider}
             questionModel={formData.questionModel}
+            formData={formData} // Pass formData to GeneratedContent
           />
         </div>
       </div>
