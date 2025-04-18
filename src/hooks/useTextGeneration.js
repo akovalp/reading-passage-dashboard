@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiClient } from "../services/api";
 
 export const useTextGeneration = () => {
   const [generatedText, setGeneratedText] = useState("");
@@ -11,31 +12,7 @@ export const useTextGeneration = () => {
     setGeneratedText("");
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/text/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        const errorDetail = errorData.detail || response.statusText;
-
-        if (
-          errorDetail.includes("API key") ||
-          errorDetail.includes("GROQ_API_KEY")
-        ) {
-          throw new Error(
-            `API key error: ${errorDetail}. Make sure to set up your .env file with the GROQ_API_KEY.`
-          );
-        } else {
-          throw new Error(`Failed to generate text: ${errorDetail}`);
-        }
-      }
-
-      const data = await response.json();
+      const data = await apiClient.generateText(formData);
       setGeneratedText(data.generated_text);
       return data.generated_text;
     } catch (err) {
