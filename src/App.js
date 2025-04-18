@@ -16,7 +16,9 @@ function App() {
     level: "Basic",
     style: "Formal",
     provider: "ollama",
+    model: "",
     questionProvider: "ollama",
+    questionModel: "",
     num_questions: 5,
     choices_num: 4,
   });
@@ -44,7 +46,11 @@ function App() {
   // Handle form submission and update form data
   const handleGenerateText = async (data) => {
     setFormData(data);
-    await generateText(data);
+    // Pass the form data along with the model
+    await generateText({
+      ...data,
+      model: data.model, // Include selected model
+    });
   };
 
   // Handle questions generation using provider from form data
@@ -54,7 +60,8 @@ function App() {
       formData.language,
       formData.questionProvider,
       formData.num_questions,
-      formData.choices_num
+      formData.choices_num,
+      formData.questionModel // Include selected question model
     );
   };
 
@@ -86,6 +93,7 @@ function App() {
             onQuizSubmit={handleQuizSubmit}
             quizResult={quizResult}
             questionProvider={formData.questionProvider}
+            questionModel={formData.questionModel}
           />
         </div>
       </div>

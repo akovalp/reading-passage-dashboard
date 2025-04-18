@@ -71,4 +71,30 @@ export const apiClient = {
       throw error;
     }
   },
+
+  /**
+   * Fetch available models from both Ollama and Groq
+   * @returns {Promise<Object>} List of available models
+   */
+  async getAvailableModels() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/models/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch models: ${response.status} ${response.statusText}`
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Model fetching error:", error);
+      throw error;
+    }
+  },
 };

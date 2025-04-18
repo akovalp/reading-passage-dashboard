@@ -25,7 +25,7 @@ class GeneratedTextRequest(BaseModel):
     style: str = Field(..., description="The style of the reading passage.",
                        example="Formal")
     provider: str = settings.OLLAMA_PROVIDER
-    model: str = settings.OLLAMA_MODEL
+    model: Optional[str] = None
 
 
 class GeneratedTextResponse(BaseModel):
@@ -68,6 +68,9 @@ class GenerateQuestionsRequest(BaseModel):
     provider: str = Field(...,
                           description="The provider to use for question generation.",
                           example="ollama")
+    model: Optional[str] = Field(None,
+                                 description="The specific model to use for question generation.",
+                                 example="gemma:7b")
 
 
 class GenerateQuestionsResponse(BaseModel):

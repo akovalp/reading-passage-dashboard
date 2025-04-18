@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "./UI/Button";
 import LoadingSpinner from "./UI/LoadingSpinner";
+import ModelSelector from "./UI/ModelSelector";
 
 const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,9 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
     level: "Basic",
     style: "Formal",
     provider: "ollama",
+    model: "",
     questionProvider: "ollama",
+    questionModel: "",
     num_questions: 5,
     choices_num: 4,
   });
@@ -25,6 +28,20 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleModelChange = (model) => {
+    setFormData({
+      ...formData,
+      model,
+    });
+  };
+
+  const handleQuestionModelChange = (questionModel) => {
+    setFormData({
+      ...formData,
+      questionModel,
     });
   };
 
@@ -90,7 +107,7 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="provider">Provider:</label>
+          <label htmlFor="provider">Text Generation Provider:</label>
           <select
             id="provider"
             name="provider"
@@ -103,7 +120,18 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="questionProvider">Question Generation Model:</label>
+          <label htmlFor="model">Text Generation Model:</label>
+          <ModelSelector
+            provider={formData.provider}
+            selectedModel={formData.model}
+            onModelChange={handleModelChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="questionProvider">
+            Question Generation Provider:
+          </label>
           <select
             id="questionProvider"
             name="questionProvider"
@@ -113,6 +141,15 @@ const TextGenerationForm = ({ onGenerateText, isLoading, initialData }) => {
             <option value="ollama">Ollama</option>
             <option value="groq">Groq</option>
           </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="questionModel">Question Generation Model:</label>
+          <ModelSelector
+            provider={formData.questionProvider}
+            selectedModel={formData.questionModel}
+            onModelChange={handleQuestionModelChange}
+          />
         </div>
 
         <div className="form-group">

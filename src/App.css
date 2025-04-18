@@ -497,3 +497,49 @@ select:focus {
   display: block;
   width: 200px;
 }
+
+/* Model Selector styles */
+.model-selector {
+  position: relative;
+  width: 100%;
+}
+
+.model-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: var(--transition);
+  appearance: auto;
+}
+
+.model-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.model-error {
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.model-error p {
+  margin-bottom: 8px;
+}
+
+.model-error select {
+  opacity: 0.6;
+}

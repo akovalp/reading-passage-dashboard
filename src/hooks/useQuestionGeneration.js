@@ -11,7 +11,8 @@ export const useQuestionGeneration = () => {
     language,
     provider,
     num_questions = 5,
-    choices_num = 4
+    choices_num = 4,
+    model = null
   ) => {
     if (!generatedText) return;
 
@@ -27,6 +28,7 @@ export const useQuestionGeneration = () => {
         language,
         choices_num: parseInt(choices_num, 10),
         provider,
+        model: model, // Include the selected model
       };
 
       const response = await fetch("http://127.0.0.1:8000/questions/generate", {

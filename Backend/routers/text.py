@@ -23,7 +23,7 @@ async def generate_text(req: GeneratedTextRequest):
     and calls the generation service.
     """
     try:
-        tg = TextGenerator(provider=req.provider)
+        tg = TextGenerator(provider=req.provider, model=req.model)
         return await tg.generate_text(
             topic=req.topic,
             language=req.language,
