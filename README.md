@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# Reading Passage & Question Generator Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project provides a web-based dashboard for generating reading passages and corresponding multiple-choice comprehension questions based on user-specified criteria. It leverages Large Language Models (LLMs) via different providers (Ollama and Groq) for content generation.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+The primary goal of this application is to assist educators, content creators, or language learners in quickly creating tailored reading materials and assessment questions. Users can define the topic, language, difficulty level, and writing style for the passage, and the application generates relevant text and questions.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   **Text Generation:**
+    *   Generate reading passages on any given topic.
+    *   Specify target language, difficulty level (Basic, Intermediate, Advanced), and writing style (e.g., Formal, Casual).
+    *   Supports multiple LLM providers (configurable, defaults to Ollama and Groq).
+    *   For English passages, uses the Gunning Fog index to iteratively refine the text to match the target difficulty level.
+*   **Question Generation:**
+    *   Generate multiple-choice comprehension questions based on the generated text.
+    *   Specify the number of questions and the number of choices per question.
+    *   Supports multiple LLM providers for question generation.
+*   **Interactive Dashboard:**
+    *   User-friendly interface built with React.
+    *   Form to input generation parameters.
+    *   Displays generated text and questions.
+    *   Allows users to take a quiz based on the generated questions and view their score.
+    *   Copy generated text to clipboard.
+    *   Dark mode toggle.
+*   **Backend API:**
+    *   Built with FastAPI (Python).
+    *   Provides endpoints for text and question generation.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+*   **Frontend:** React, CSS
+*   **Backend:** Python, FastAPI
+*   **LLM Interaction:** Ollama, Groq API
+*   **Text Analysis (English):** `textstat` library
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+*   **Node.js and npm:** For running the React frontend. ([Download Node.js](https://nodejs.org/))
+*   **Python 3.9+ and pip:** For running the FastAPI backend. ([Download Python](https://www.python.org/))
+*   **Ollama (Optional):** If you want to use local models via Ollama. ([Install Ollama](https://ollama.com/))
+*   **Groq API Key (Optional):** If you want to use the Groq API. Get one from [GroqCloud](https://console.groq.com/keys).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup and Running
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd reading-passage-dashboard
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2.  **Install Frontend Dependencies:**
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+3.  **Install Backend Dependencies:**
+    *   (Assuming you have a `requirements.txt` in the `Backend` directory - if not, create one based on imports like `fastapi`, `uvicorn`, `pydantic`, `python-dotenv`, `ollama`, `aiohttp`, `textstat`, `pydantic-settings`)
+    ```bash
+    cd Backend
+    pip install -r requirements.txt # Or pip install fastapi uvicorn pydantic python-dotenv ollama aiohttp textstat pydantic-settings
+    cd ..
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4.  **Set up Environment Variables:**
+    *   Create a `.env` file in the *root* directory of the project (alongside `package.json`).
+    *   Add your API keys and any model configurations if needed. For Groq:
+        ```env
+        # .env
+        GROQ_API_KEY=your_groq_api_key_here
+        ```
+    *   The backend (`Backend/core/settings.py`) and frontend (`src/services/api.js`) might have default models set. You can override backend defaults via the `.env` file if necessary (though currently, it primarily looks for `GROQ_API_KEY`).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5.  **Run the Application:**
+    *   This command uses `concurrently` (defined in `package.json`) to start both the backend server and the frontend development server.
+    ```bash
+    npm run dev
+    ```
+    *   This will typically:
+        *   Start the FastAPI backend on `http://127.0.0.1:8000`.
+        *   Start the React frontend on `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+6.  **Access the Dashboard:**
+    *   Open your web browser and navigate to `http://localhost:3000`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## How It Works
 
-## Learn More
+1.  The user fills out the form in the React frontend, specifying parameters like topic, language, level, style, and provider choices.
+2.  When "Generate Text" is clicked, the frontend sends a POST request to the `/text/generate` endpoint of the FastAPI backend.
+3.  The backend's `TextGenerator` service selects the appropriate LLM provider (Ollama or Groq) and model.
+4.  It constructs a prompt based on the user's input. For English, it may iterate, using `textstat` to check the Gunning Fog score and adjusting the prompt until the desired level is achieved or maximum iterations are reached.
+5.  The LLM generates the text, which is sent back to the frontend and displayed.
+6.  When "Generate Questions" is clicked, the frontend sends the generated text and question parameters (number, choices, provider) to the `/questions/generate` endpoint.
+7.  The backend's `QuestionGenerator` service uses the selected provider to generate multiple-choice questions in JSON format based on the provided text.
+8.  The questions are sent back to the frontend and displayed as an interactive quiz.
+9.  Users can take the quiz, submit answers, and see their score.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Feel free to contribute or report issues!
