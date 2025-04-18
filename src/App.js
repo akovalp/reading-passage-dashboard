@@ -51,7 +51,7 @@ function App() {
   const handleGenerateQuestions = async () => {
     await generateQuestions(
       generatedText,
-      "English",
+      formData.language,
       formData.questionProvider,
       formData.num_questions,
       formData.choices_num
